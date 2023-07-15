@@ -3,6 +3,7 @@ const axios = require('axios')
 require('dotenv').config()
 const app = express()
 const apiKey = process.env.API_KEY
+let y = Math.pow(10,18);
 const {utils} = require('ethers');
 
 class Block{
@@ -18,7 +19,7 @@ const fetchData = async() =>{
         for(let blockNumber=2165403; blockNumber<2165410; blockNumber++){
         const apiUrl = `https://api.etherscan.io/api?module=block&action=getblockReward&blockno=${blockNumber}&apikey=${apiKey}`
         const response = await axios.get(apiUrl);
-        const rewardEther = utils.formatEther(response.data.result.blockReward)
+        const rewardEther = (response.data.result.blockReward/y)
         const timeStamp = response.data.result.timeStamp
         const block=new Block(timeStamp,rewardEther)
         listofBlocks.push(block)
